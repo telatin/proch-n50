@@ -21,7 +21,7 @@ our %program = (
     'NAME'    => 'FASTX N50',
     'AUTHOR'  => 'Andrea Telatin',
     'MAIL'    => 'andrea@telatin.com',
-    'VERSION' => '4.0.2',
+    'VERSION' => '4.0.4',
 );
 my $hasJSON = undef;
 my $t;

@@ -1,6 +1,9 @@
+1.4.4	2022-06-12
+	* Migrating repository
+
 1.4.3	2022-06-02
 	* Fixed future deprecation on regexes
-	* Update FASTX::Reader version required
+	* Update FASTX::Reader version required (should fix a bug opened in rt)
 
 1.4.2	2021-11-02
 	* Fixed perlcritic warnings on 'n50' 

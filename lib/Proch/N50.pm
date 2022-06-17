@@ -4,7 +4,7 @@ package Proch::N50;
 use 5.012;
 use warnings;
 my  $opt_digits = 2;
-$Proch::N50::VERSION = '1.4.3';
+$Proch::N50::VERSION = '1.4.4';
 use File::Spec;
 use JSON::PP;
 use FASTX::Reader;
@@ -350,17 +350,5 @@ SeqFu is currently the ideal choice that can replace the C<n50> program.
 If you are interested in contributing to the development of this module, or
 in reporting bugs, please refer to the legacy repository
 L<https://github.com/quadram-institute-bioscience/seqfu/issues>.
-
-=head1 AUTHOR
-
-Andrea Telatin <andrea@telatin.com>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is Copyright (c) 2018-2020 by Andrea Telatin.
-
-This is free software, licensed under:
-
-  The MIT (X11) License
 
 =cut

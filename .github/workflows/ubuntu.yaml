@@ -1,14 +1,31 @@
-name: Dist::Zilla Action
-on: push
-
+name: CI Dzil
+ 
+on:
+    push:
+        branches: '*'
+    pull_request:
+        branches: '*'
+    schedule:
+        - cron: '42 0 7 * *'
+ 
 jobs:
-  dzil:
+  perl-job:
     runs-on: ubuntu-latest
-    name: "dzil run"
+    strategy:
+      fail-fast: false
+      matrix:
+        perl-version:
+          - '5.14'
+          - '5.30'
+#          - '5.32'
+#          - 'latest'
+    container:
+      image: perldocker/perl-tester:${{ matrix.perl-version }}     # https://hub.docker.com/r/perldocker/perl-tester
+    name: Perl ${{ matrix.perl-version }}
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v3
-      - name: Installing dependencies and testing all using dzil
-        uses: jonasbn/github-action-perl-dist-zilla@0.2.0
-        with:
-          dzil-arguments: 'test --all'
+      - uses: actions/checkout@v2
+      - name: Regular tests
+        run: |
+          dzil authordeps --missing | cpanm --notest
+          dzil listdeps --author --missing | cpanm --notest
+          dzil test --author --release --verbose

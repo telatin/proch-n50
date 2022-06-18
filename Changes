@@ -1,5 +1,5 @@
 1.4.4	2022-06-12
-	* Migrating repository
+	* Starting migration of the repository to telatin/proch-n50
 
 1.4.3	2022-06-02
 	* Fixed future deprecation on regexes

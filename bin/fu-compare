@@ -1,4 +1,6 @@
 #!/usr/bin/env perl 
+# PODNAME: fu-compare
+# ABSTRACT: Find the common sequences between two files
 
 use 5.012;
 use warnings;
@@ -52,3 +54,18 @@ sub usage {
 END
  exit;
 }
+
+
+__END__
+
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+fu-compare - extract commons sequences
+
+=head1 SYNOPSIS
+
+  fu-cat File1 File2

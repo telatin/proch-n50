@@ -251,16 +251,4 @@ Print version and exit
 
 =back
 
-=head1 AUTHOR
-
-Andrea Telatin <andrea@telatin.com>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is Copyright (c) 2014-2020 by Andrea Telatin.
-
-This is free software, licensed under:
-
-The MIT (X11) License
-
 =cut

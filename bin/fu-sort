@@ -1,11 +1,13 @@
 #!/usr/bin/env perl
-
+# PODNAME: fu-sort
+# ABSTRACT: Sort sequences by size
 use 5.012;
 use warnings;
 use Getopt::Long;                   # Receive options from the command line
 use Pod::Usage;                     # For  --help
 use File::Basename;
-use BioX::Seq::Stream;
+use FASTX::Reader;
+use FASTX::Seq;
 use Data::Dumper;
 
 my $EXE = basename($0);
@@ -36,16 +38,8 @@ my %seqs = ();
 foreach my $file (@ARGV) {
 	debug("Reading $file");
 	$file = undef if ($file eq '-');
-	my $parser;
-    eval {
-          $parser = BioX::Seq::Stream->new( $file );
-    };
-    if (defined $@) {
-        say STDERR " * Skipping '$file': $@";
-        next;
-    }
-
-  while (my $seq = $parser->next_seq) {
+	my $FASTX = FASTX::Reader->new({ filename => "$file" });
+  while (my $seq = $FASTX->next() ) {
 	    my $len = length($seq->seq);
 	    push(@{ $seqs{$len} }, \$seq );
   }
@@ -65,7 +59,7 @@ for my $size (sort $sorter keys %seqs ) {
 		# Edit
 		$seq->{desc} = undef if ($opt_strip_comm);
 		$seq->{seq} = uc($seq->{seq}) if ($opt_upper);
-		$seq->rev_com() if ($opt_revcompl);
+		$seq->rev() if ($opt_revcompl);
 
         # comments
         if ($opt_comment_len) {
@@ -76,11 +70,15 @@ for my $size (sort $sorter keys %seqs ) {
           }
         }
 		# Print sequences
+    my $sep = length($seq->comment()) ? " " : "";
 		if ( ($opt_fasta) or (not $opt_fastq and not $seq->{qual})) {
-			print $seq->as_fasta($opt_line_length);
+      
+			print ">", $seq->name, $sep, $seq->comment, "\n", $seq->seq, "\n";
 		} elsif ( $opt_fastq or (not $opt_fasta and  $seq->{qual}) ) {
 			my $q = $seq->{qual} ? undef : $opt_def_qual;
-			print $seq->as_fastq($q);
+      my $Q = chr($q + 33);
+      my $qualstring = $Q x length($seq->seq);
+			print "@", $seq->name, $sep, $seq->comment, "\n", $seq->seq, "\n+\n", $qualstring, "\n";
 		} else {
 			debug("What");
 			say Dumper $seq;
@@ -170,3 +168,19 @@ sub usage {
   }
   exit($exitcode);
 }
+
+__END__
+
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+fu-sort - sort sequences by size
+
+=head1 EXAMPLES
+
+  fu-sort seq.fa > sorted.fa
+
+=cut

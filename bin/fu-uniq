@@ -1,10 +1,12 @@
 #!/usr/bin/env perl
-
+# PODNAME: fu-uniq
+# ABSTRACT: Dereplicate sequences
 use 5.012;
 use warnings;
 use Getopt::Long;
 use File::Basename;
-use BioX::Seq::Stream;
+use FASTX::Reader;
+use FASTX::Seq;
 use Data::Dumper;
 use Digest::MD5 qw( md5_hex );
 
@@ -45,19 +47,11 @@ my %labels  = ();
 foreach my $file (@ARGV) {
 	debug("Reading $file");
 	$file = undef if ($file eq '-');
-	my $parser;
-  eval {
-	  $parser = BioX::Seq::Stream->new( $file );
-	};
-  if ($@) {
-    say STDERR " * Skipping '$file': $@";
-    next;
-  }
+	my $FASTX = FASTX::Reader->new({ filename => "$file"});
 
-  while (my $seq = $parser->next_seq) {
+  while (my $seq = $FASTX->next()) {
 
-
-			my $size = $seq->id =~/size=(\d+)/ ?  $1  : 1;
+			my $size = $seq->seq() =~/size=(\d+)/ ?  $1  : 1;
 
 			$counter{uc( $seq->seq )} += $size;
 			next unless ($opt_keep_name);
@@ -162,3 +156,18 @@ sub usage {
   }
   exit($exitcode);
 }
+__END__
+
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+fu-uniq - dereplicate sequences
+
+=head1 EXAMPLES
+
+  fu-uniq input.fa > uniq.fa
+
+=cut

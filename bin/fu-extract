@@ -1,5 +1,6 @@
 #!/usr/bin/env perl 
-
+# ABSTRACT: Filter DNA sequences by pattern and/or length
+# PODNAME: fu-extract
 use 5.012;
 use warnings;
 use Getopt::Long;
@@ -90,3 +91,20 @@ sub vprint {
 	say $_[0] if ($opt_verbose);
 }
 
+
+__END__
+
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+fu-extract - concatenate FASTA or FASTQ files
+
+=head1 EXAMPLES
+
+
+  fu-extract -p 'BamHI' test.fa
+
+  fu-extract -l list.txt test.Fasta

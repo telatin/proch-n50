@@ -219,7 +219,7 @@ fu-count - A FASTA/FASTQ sequence counter
 
 =head1 SYNOPSIS
 
-  fqc [options] [FILE1 FILE2 FILE3...]
+  fu-count [options] [FILE1 FILE2 FILE3...]
 
 =head1 DESCRIPTION
 
@@ -321,16 +321,5 @@ Display this help page
 
 =back
 
-=head1 AUTHOR
-
-Andrea Telatin <andrea@telatin.com>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is Copyright (c) 2019 by Andrea Telatin.
-
-This is free software, licensed under:
-
-  The MIT (X11) License
 
 =cut

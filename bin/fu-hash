@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
-# ABSTRACT: Dereplicate sequences
-# PODNAME: fu-derep
+# ABSTRACT: Print sequence hashes
+# PODNAME: fu-hash
 
 use 5.012;
 use Getopt::Long;
@@ -11,15 +11,15 @@ use FindBin qw($RealBin);
 use lib  "$RealBin/../seqfu/", "$RealBin/seqfu/", "$RealBin/../lib/perl5",  "$RealBin/lib"; 
 
 use FASTX::Reader;
-use Local::SeqFu;
+use Proch::Seqfu;
 
 my $PROGRAM = basename($0);
-my $VERSION = $Local::SeqFu::VERSION;
+my $VERSION = $Proch::Seqfu::VERSION;
 my ($opt_rename_prefix, $opt_fast,$opt_rename_with_hash, $opt_help, $opt_verbose, $opt_version);
 my $opt_upper = 1;
 my $opt_size_as_comment;
 my $opt_nosize;
-my $opt_line_size = $Local::SeqFu::fu_linesize;
+my $opt_line_size = $Proch::Seqfu::fu_linesize;
 
 if (!GetOptions(
     'h|hash'        => \$opt_rename_with_hash,
@@ -37,8 +37,8 @@ if (!GetOptions(
 }
 
 
-$Local::SeqFu::fu_linesize  = $opt_line_size;
-$Local::SeqFu::fu_verbose   = $opt_verbose;
+$Proch::Seqfu::fu_linesize  = $opt_line_size;
+$Proch::Seqfu::fu_verbose   = $opt_verbose;
 
 # Check consistency of parameters
 if ($opt_rename_prefix and $opt_rename_with_hash) {
@@ -136,85 +136,11 @@ __END__
 
 =head1 NAME
 
-fu-cat - concatenate FASTA or FASTQ files
+fu-hash - hash sequences
 
 =head1 SYNOPSIS
 
   fu-cat [options] [FILE1 FILE2 FILE3...]
 
-=head1 DESCRIPTION
-
-This program parses a list of FASTA/FASTQ and will concatenate them
-ensuring consistent output. Will rename duplicate sequence names.
-Will try to autodetect the format of all files before executing and
-decide accordingly the output format (FASTA if at least one of the
-files is FASTA, otherwise FASTQ). If reading from STDIN the first 
-sequence is in FASTQ format, will skip all the sequences without a 
-quality string.
-
-If no files are provided the program will try reading from STDIN,
-otherwise add a '-' to the list of files to also read from STDIN.
-
-=head1 PARAMETERS
-
-=over 4
-
-=item I<-s>, I<--separator>
-
-When a second sequence with a name that was already printed is found,
-the program will append a progressive number, separated by this string.
-Use `fu-rename` if you need more options.
-[default: "."]
-
-=item I<-f>, I<--fasta>
-
-Force FASTA output
-
-=item I<-q>, I<--fastq>
-
-Force FASTQ output. Will B<not> print any sequence without quality 
-(they will be skipped)
-
-=item I<-l>, I<--minlen> INT
-
-Do not print sequences shorter (exclusive) than INT
-
-=item I<-m>, I<--maxlen> INT
-
-Do not print sequences longer (exclusive) than INT
-
-=item I<-u>, I<--uppercase>
-
-Will print the whole sequence in uppercase
-
-=item I<-w>, I<--width> INT
-
-Size of the FASTA lines. Specifing 0 will print the whole sequence in the same line (default: 0)
-
-=item I<--verbose>
-
-Print more details
-
-=item I<--help>
-
-Display this help page
-
-=item I<--version>
-
-Print version and exit
-
-=back
-
-=head1 AUTHOR
-
-Andrea Telatin <andrea@telatin.com>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is Copyright (c) 2014-2020 by Andrea Telatin.
-
-This is free software, licensed under:
-
-The MIT (X11) License
 
 =cut

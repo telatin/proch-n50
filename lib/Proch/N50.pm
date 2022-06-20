@@ -4,7 +4,7 @@ package Proch::N50;
 use 5.012;
 use warnings;
 my  $opt_digits = 2;
-$Proch::N50::VERSION = '1.4.4';
+$Proch::N50::VERSION = '1.4.5';
 use File::Spec;
 use JSON::PP;
 use FASTX::Reader;
@@ -318,7 +318,7 @@ Returns N50, min and max lengths.
 
 =back
 
-=head2 Implementation (n50.pl)
+=head2 Stantalone program (n50.pl)
 
 =over 4
 
@@ -344,11 +344,13 @@ Returns N50, min and max lengths.
 
 =head1 SUPPORT
 
-SeqFu is a compiled suite of utilities that includes a B<seqfu stats> module. 
-SeqFu is currently the ideal choice that can replace the C<n50> program.
+This module and the n50 program have limited support.
+SeqFu (L<https://telatin.github.io/seqfu2>) is a compiled suite of 
+utilities that includes a B<seqfu stats> module, a faster replacement
+for the C<n50> program.
 
 If you are interested in contributing to the development of this module, or
-in reporting bugs, please refer to the legacy repository
-L<https://github.com/quadram-institute-bioscience/seqfu/issues>.
+in reporting bugs, please refer to repository
+L<https://github.com/telatin/proch-n50/issues>.
 
 =cut

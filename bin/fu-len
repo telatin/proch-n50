@@ -9,8 +9,8 @@ use File::Basename;
 use FindBin qw($RealBin);
 use lib  "$RealBin/../seqfu/", "$RealBin/seqfu/", "$RealBin/../lib/perl5",  "$RealBin/lib"; 
 
-my $PROGRAM = 'fqlen';
-my $VERSION = '0.1';
+my $PROGRAM = 'fu-len';
+my $VERSION = '0.2';
 my $DESCR   = 'Select sequences by size';
 my $AUTHOR  = 'Andrea Telatin (proch)';
 
@@ -140,7 +140,7 @@ sub usage {
   $PROGRAM - $DESCR (ver. $VERSION)
  -------------------------------------------------------------------------------
   Synopsis:
-    fqlen [options] FILE1 FILE2 ... FILEn
+    fu-len [options] FILE1 FILE2 ... FILEn
 
   -m, --min INT                   Minimum length to print a sequence
   -x, --max INT                   Maximum length to print a sequence
@@ -173,24 +173,59 @@ __END__
 
 =encoding UTF-8
 
-=head1 NAME
+=head1 USAGE
 
-fqlen.pl - A demo implementation to filter fastx files by length
+  fqlen [options] FILE1 FILE2 ... FILEn
 
-=head1 VERSION
+=head2 PARAMETERS
 
-version 0.70
+=over 4
 
-=head1 AUTHOR
+=item C<-m>, C<--min> INT                   
 
-Andrea Telatin <andrea@telatin.com>
+Minimum length to print a sequence
+=item C<-x>, C<--max> INT                   
 
-=head1 COPYRIGHT AND LICENSE
+Maximum length to print a sequence
+=item C<-l>, C<--len>                       
 
-This software is Copyright (c) 2019 by Andrea Telatin.
+Add read length as comment
+=item C<-f>, C<--fasta>                     
 
-This is free software, licensed under:
+Force FASTA output (default: as INPUT)
+=item C<-w>, C<--fasta-width> INT           
 
-  The MIT (X11) License
+Paginate FASTA sequences (default: no)
+
+
+=item C<-n>, C<--namescheme>                
+
+Sequence name scheme: B<"file"> (Use file basename as prefix),
+B<"num"> (Numbered sequence (see also -p)) and
+B<"raw"> (Do not change sequence name, default)
+
+=item C<-p>, C<--prefix> STR
+
+Use as sequence name prefix this string
+
+=item C<-c>, C<--strip-comment>
+
+Remove sequence comment (default: no)
+    
+=back
+
+=head1 LIMITATIONS
+
+Note that usage with multiple files can raise errors (eg. duplicate sequence name). 
+Also, wrong formatting if mixing fasta and fastq files without 
+specifying --fasta.
+
+We recommend considering SeqFu to overcome these limitations: L<https://github.com/telatin/seqfu2>.
+
+=head1 CITING
+
+Telatin A, Fariselli P, Birolo G.
+I<SeqFu: A Suite of Utilities for the Robust and Reproducible Manipulation of Sequence Files>.
+Bioengineering 2021, 8, 59. L<https://doi.org/10.3390/bioengineering8050059>
 
 =cut

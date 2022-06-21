@@ -21,7 +21,7 @@ our %program = (
     'NAME'    => 'FASTX N50',
     'AUTHOR'  => 'Andrea Telatin',
     'MAIL'    => 'andrea@telatin.com',
-    'VERSION' => '4.0.5',
+    'VERSION' => '4.1.0',
 );
 my $hasJSON = undef;
 my $t;
@@ -577,13 +577,6 @@ __END__
 
 =encoding UTF-8
 
-=head1 NAME
-
-n50 - A script to calculate N50 from one or multiple FASTA/FASTQ files.
-
-=head1 VERSION
-
-version 1.4.2
 
 =head1 SYNOPSIS
 
@@ -813,31 +806,7 @@ Bioengineering 2021, 8, 59. L<https://doi.org/10.3390/bioengineering8050059>
 =head1 CONTRIBUTING, BUGS
 
 The repository of this project is available at
-L<https://github.com/quadram-institute-bioscience/seqfu/>.
+L<https://github.com/telatin/proch-n50/>.
 The Perl module is inside the "n50" subdirectory.
-
-=head1 AUTHOR
-
-Andrea Telatin <andrea@telatin.com>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is Copyright (c) 2018-2020 by Andrea Telatin.
-
-This is free software, licensed under:
-
-  The MIT (X11) License
-
-=head1 AUTHOR
-
-Andrea Telatin <andrea@telatin.com>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is Copyright (c) 2018-2020 by Andrea Telatin.
-
-This is free software, licensed under:
-
-  The MIT (X11) License
 
 =cut

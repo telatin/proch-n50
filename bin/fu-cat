@@ -12,15 +12,15 @@ use FindBin qw($RealBin);
 use lib  "$RealBin/../seqfu/", "$RealBin/seqfu/";
 use Digest::MD5 qw(md5_base64);
 use FASTX::Reader;
-use Local::SeqFu;
+use Proch::Seqfu;
 
 my $PROGRAM = basename($0);
-my $VERSION = $Local::SeqFu::VERSION;
+my $VERSION = $Proch::Seqfu::VERSION // "<Dev>";
 my ($opt_force_fasta, $opt_force_fastq, $opt_upper, $opt_help, $opt_verbose, $opt_version);
 my ($opt_minlen, $opt_maxlen, $opt_dereplicate, $opt_rename_md5);
 my $opt_separator = '.';
 my $opt_rename_string;
-my $opt_line_size = $Local::SeqFu::fu_linesize;
+my $opt_line_size = $Proch::Seqfu::fu_linesize;
 
 if (!GetOptions(
     'f|fasta'       => \$opt_force_fasta,
@@ -42,8 +42,8 @@ if (!GetOptions(
 }
 
 
-$Local::SeqFu::fu_linesize  = $opt_line_size;
-$Local::SeqFu::fu_verbose   = $opt_verbose;
+$Proch::Seqfu::fu_linesize  = $opt_line_size;
+$Proch::Seqfu::fu_verbose   = $opt_verbose;
 
 # Check consistency of parameters
 if ($opt_force_fasta and $opt_force_fastq){
@@ -102,6 +102,7 @@ my %printed_seqs      = ();
 
 # Process all the files
 for my $filename (@ARGV) {
+    say STDERR " - $filename" if ($Proch::Seqfu::fu_verbose);
     $filename = '{{STDIN}}' if ($filename eq '-');
     my $reader = FASTX::Reader->new({ filename => "$filename"});
     while (my $s = $reader->getRead() ) {
@@ -250,5 +251,22 @@ Display this help page
 Print version and exit
 
 =back
+
+=head1 MODERN ALTERNATIVE
+
+This suite of tools has been superseded by B<SeqFu>, a compiled
+program providing faster and safer tools for sequence analysis.
+This suite is maintained for the higher portability of Perl scripts
+under certain circumstances.
+
+SeqFu is available at L<https://github.com/telatin/seqfu2>, and
+can be installed with BioConda C<conda install -c bioconda seqfu>
+
+
+=head1 CITING
+
+Telatin A, Fariselli P, Birolo G.
+I<SeqFu: A Suite of Utilities for the Robust and Reproducible Manipulation of Sequence Files>.
+Bioengineering 2021, 8, 59. L<https://doi.org/10.3390/bioengineering8050059>
 
 =cut

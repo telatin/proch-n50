@@ -1,4 +1,6 @@
 #!/bin/bash
+
+echo "DOCS:$(pwd)"
 echo "
 
 # Proch::N50
@@ -15,8 +17,15 @@ dir="build-release"
 out="docs"
 mkdir -p "$out"
 dzil build --in "$dir"
+
+# prevent shell glob
+
 for i in "$dir"/bin/*; 
 do
+ if [[ ! -e "$i" ]]; then
+   exit
+ fi
+ echo $b
  b=$(basename $i .pl)
  pod2markdown < $i > "$out"/${b}.md
  echo " * [$b](docs/$b.md)" >> README.md
@@ -30,4 +39,8 @@ echo "
 
 Telatin A, Fariselli P, Birolo G. 
 **SeqFu: A Suite of Utilities for the Robust and Reproducible Manipulation of Sequence Files**.
-Bioengineering 2021, 8, 59. [10.3390/bioengineering8050059](https://doi.org/10.3390/bioengineering8050059)" >> README.md
+Bioengineering 2021, 8, 59. [10.3390/bioengineering8050059](https://doi.org/10.3390/bioengineering8050059)
+
+" >> README.md
+
+echo "Last updated: $(date +%Y-%m-%d)" >> README.md

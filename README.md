@@ -26,11 +26,6 @@ a small module to calculate N50 (total size, and total number of sequences) for 
 Telatin A, Fariselli P, Birolo G. 
 **SeqFu: A Suite of Utilities for the Robust and Reproducible Manipulation of Sequence Files**.
 Bioengineering 2021, 8, 59. [10.3390/bioengineering8050059](https://doi.org/10.3390/bioengineering8050059)
- * [*](docs/*.md)
 
 
-# Citing
-
-Telatin A, Fariselli P, Birolo G. 
-**SeqFu: A Suite of Utilities for the Robust and Reproducible Manipulation of Sequence Files**.
-Bioengineering 2021, 8, 59. [10.3390/bioengineering8050059](https://doi.org/10.3390/bioengineering8050059)
+Last updated: 2022-06-21

@@ -8,7 +8,8 @@ use Getopt::Long;
 use File::Basename;
 use FindBin qw($RealBin);
 my $PROGRAM = 'fu-len';
-my $VERSION = '0.2';
+use Proch::Seqfu;
+my $VERSION = $Proch::Seqfu::VERSION // "<Dev>";
 my $DESCR   = 'Select sequences by size';
 my $AUTHOR  = 'Andrea Telatin (proch)';
 

@@ -10,6 +10,8 @@ use FASTX::Reader;
 use File::Basename;
 use Data::Dumper;
 my $BASENAME = basename($0);
+use Proch::Seqfu;
+my $VERSION = $Proch::Seqfu::VERSION // "<Dev>";
 my $warnings = 0;
 my ($opt_verbose, $opt_debug);
 my $opt_separator   = ".";
@@ -85,6 +87,7 @@ say STDERR "$warnings warnings emitted" if ($warnings);
 
 sub usage {
 	say STDERR<<END;
+	$BASENAME $VERSION
 
 	Usage:
 	$BASENAME [options] InputFile.fa [...]

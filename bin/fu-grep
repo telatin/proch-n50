@@ -10,6 +10,8 @@ use FASTX::Reader;
 use File::Basename;
 use Data::Dumper;
 my $opt_comment_separator = "\t";
+use Proch::Seqfu;
+my $VERSION = $Proch::Seqfu::VERSION // "<Dev>";
 my $BASENAME = basename($0);
 my $warnings = 0;
 my ($opt_verbose, $opt_debug, $opt_fasta);
@@ -112,6 +114,7 @@ say STDERR "$warnings warnings emitted" if ($opt_verbose or $opt_debug);
 
 sub usage {
 	say STDERR<<END;
+  $BASENAME Version $VERSION
 
   Usage:
   $BASENAME [options] Pattern InputFile.fa [...]
@@ -149,12 +152,12 @@ sub rc_pattern {
 	return '(' . $string .'|'. $rc . ')';
 }
 
-sub rc {
-	my $string = shift @_;
-	$string = reverse $string;
-	$string =~tr/ACGTacgt/TGCAtgca/;
-	return $string;
-}
+# sub rc {
+# 	my $string = shift @_;
+# 	$string = reverse $string;
+# 	$string =~tr/ACGTacgt/TGCAtgca/;
+# 	return $string;
+# }
 sub vprint {
 	say STDERR $_[0] if ($opt_verbose or $opt_debug) ;
 }
@@ -170,7 +173,6 @@ __END__
 =encoding UTF-8
  
 =head1 USAGE
-
 
   fu-grep [options] Pattern InputFile.fa [...]
 

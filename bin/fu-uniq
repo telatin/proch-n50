@@ -9,9 +9,10 @@ use FASTX::Reader;
 use FASTX::Seq;
 use Data::Dumper;
 use Digest::MD5 qw( md5_hex );
-
+use Proch::Seqfu;
+my $VERSION = $Proch::Seqfu::VERSION // "<Dev>";
 my $EXE = basename($0);
-my $VERSION = '1.0.0';
+
 my $AUTHOR = 'Andrea Telatin';
 my $DESC = 'Print unique sequence with USEARCH labels';
 

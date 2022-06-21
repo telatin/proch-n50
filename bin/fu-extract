@@ -10,6 +10,8 @@ use FASTX::Reader;
 use File::Basename;
 use Data::Dumper;
 my $BASENAME = basename($0);
+use Proch::Seqfu;
+my $VERSION = $Proch::Seqfu::VERSION // "<Dev>";
 
 my ($opt_list, $opt_pattern, $opt_maxlen, $opt_minlen, $opt_verbose, $opt_debug);
 my $opt_separator = "\t";
@@ -62,7 +64,7 @@ for my $file (@ARGV) {
 
 sub usage {
 	say STDERR<<END;
-	Filter DNA sequences by pattern and/or length
+	Filter DNA sequences by pattern and/or length. Version $VERSION
 
 	Usage:
 	$BASENAME [options] InputFile.fa [...]

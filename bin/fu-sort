@@ -11,7 +11,8 @@ use FASTX::Seq;
 use Data::Dumper;
 
 my $EXE = basename($0);
-my $VERSION = $FASTX::Reader::VERSION;
+use Proch::Seqfu;
+my $VERSION = $Proch::Seqfu::VERSION // "<Dev>";
 my $AUTHOR = 'Andrea Telatin';
 my $DESC = 'Sort sequences by size';
 

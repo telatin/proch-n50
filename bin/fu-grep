@@ -6,8 +6,6 @@ use warnings;
 use Getopt::Long;
 use FindBin qw($RealBin);
 
-use lib  "$RealBin/../seqfu/", "$RealBin/seqfu/", "$RealBin/../lib/perl5",  "$RealBin/lib";
-
 use FASTX::Reader;
 use File::Basename;
 use Data::Dumper;
@@ -175,7 +173,6 @@ __END__
 
 
   fu-grep [options] Pattern InputFile.fa [...]
-
 
 =head2 PARAMETERS
 

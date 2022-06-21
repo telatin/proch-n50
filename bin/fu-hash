@@ -8,8 +8,6 @@ use Pod::Usage;
 use File::Basename;
 use Digest::MD5 qw( md5_hex );
 use FindBin qw($RealBin);
-use lib  "$RealBin/../seqfu/", "$RealBin/seqfu/", "$RealBin/../lib/perl5",  "$RealBin/lib"; 
-
 use FASTX::Reader;
 use Proch::Seqfu;
 
@@ -136,11 +134,20 @@ __END__
 
 =head1 NAME
 
-fu-hash - hash sequences
+fu-hash - hash sequences (dereplicate and rename)
 
 =head1 SYNOPSIS
 
-  fu-cat [options] [FILE1 FILE2 FILE3...]
+  fu-hash [options] [FILE1 FILE2 FILE3...]
 
+=head1 OUTPUT
 
+A multifasta file with MD5 hash and size of each
+sequence like
+
+  >6310f1f8992a4d08dc4e601e66e28286;size=2
+  ACAGCGTACGTGATCGACGTAGCTAGCTGACGAGCTAGCTACACACGATCGTAGCTGGTAGTCAGTCGAT
+  CGACGTAGCTAGCAACAGCGTACGTGATCGACGTAGCTAGCTGACGAGCTAGCTACACACGATCGTAGCTGG
+  TAGTCAGTCGATCGACGTAGCTAGCA
+  
 =cut

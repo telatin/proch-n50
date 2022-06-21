@@ -8,8 +8,6 @@ use Getopt::Long;
 use Pod::Usage;
 use File::Basename;
 use FindBin qw($RealBin);
-#        Repository            Conda
-use lib  "$RealBin/../seqfu/", "$RealBin/seqfu/";
 use Digest::MD5 qw(md5_base64);
 use FASTX::Reader;
 use Proch::Seqfu;

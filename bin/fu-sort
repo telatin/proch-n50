@@ -11,12 +11,12 @@ use FASTX::Seq;
 use Data::Dumper;
 
 my $EXE = basename($0);
-my $VERSION = '1.0.0';
+my $VERSION = $FASTX::Reader::VERSION;
 my $AUTHOR = 'Andrea Telatin';
 my $DESC = 'Sort sequences by size';
 
-my $opt_def_qual    = $ENV{SEQFU_DEF_QUAL}   // 33;     # Default quality if printing FASTA to FASTQ
-my $opt_line_length = $ENV{'FU_LINE_LENGTH'} // 80;     # Default line length for FASTA files
+my $opt_def_qual    = $ENV{'SEQFU_DEF_QUAL'}   // 33;     # Default quality if printing FASTA to FASTQ
+my $opt_line_length = $ENV{'FU_LINE_LENGTH'} // 80;       # Default line length for FASTA files
 
 my( @Options,
 	$opt_ascending,
@@ -175,13 +175,73 @@ __END__
 
 =encoding UTF-8
 
-=head1 NAME
-
-fu-sort - sort sequences by size
-
 =head1 EXAMPLES
 
   fu-sort seq.fa > sorted.fa
+
+=head1 PARAMETERS
+
+=over 4
+
+=item C<--asc>             
+
+Print in ascending order (defaul: descending)
+
+=item C<--al|add-length>    
+
+Add length=LEN to the comment
+
+=item C<--help>             
+
+This help
+
+=item C<--version>          
+
+Print version and exit
+
+=item C<--quiet>            
+
+No screen output (default OFF)
+
+=item C<--debug>            
+
+Debug mode (default OFF)
+
+=back
+
+=head2 Common options
+
+=over 4
+
+=item C<--w|line-width> [N] 
+
+FASTA line size (0 for unlimited)
+
+=item C<--sc|strip-comments> 
+
+Strip comments
+
+=item C<--fasta>            
+
+Force FASTA output
+
+=item C<--fastq>            
+
+Force FASTQ output
+
+=item C<--rc>               
+
+Print reverse complementary
+
+=item C<--q|qual> [n.n]     
+
+Default quality for FASTQ files
+
+=item C<--u|upper>          
+
+Convert sequence to uppercase
+
+=back
 
 =head1 MODERN ALTERNATIVE
 

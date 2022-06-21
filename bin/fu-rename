@@ -5,8 +5,6 @@ use 5.012;
 use warnings;
 use Getopt::Long;
 use FindBin qw($RealBin);
-#        Repository            Conda
-use lib  "$RealBin/../seqfu/", "$RealBin/seqfu/", "$RealBin/../lib/perl5",  "$RealBin/lib";
 
 use FASTX::Reader;
 use File::Basename;

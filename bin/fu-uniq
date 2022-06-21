@@ -175,15 +175,19 @@ __END__
 =item C<--k|keepname>
 
 Use first sequence name as cluster name(default ON)
+
 =item C<--p|prefix> [X]
 
 Sequence prefix (default 'seq')
+
 =item C<--s|separator> [X]
 
 Prefix and counter separator (default '.')
+
 =item C<--m|min-size> [N]
 
 Print only sequences found at least N times (default '0')
+
 =item C<--size-as-comment>
 
 Add size as comment, not as part of sequence name (default OFF)
@@ -197,15 +201,19 @@ Add size as comment, not as part of sequence name (default OFF)
 =item C<--help>
 
 This help
+
 =item C<--version>
 
 Print version and exit
+
 =item C<--citation>
 
 Print citation for seqfu
+
 =item C<--quiet>
 
 No screen output (default OFF)
+
 =item C<--debug>
 
 Debug mode: keep all temporary files (default OFF)
@@ -219,21 +227,27 @@ Debug mode: keep all temporary files (default OFF)
 =item C<--w|line-width> [N]
 
 FASTA line size (0 for unlimited) (default '80')
+
 =item C<--strip>
 
 Strip comments
+
 =item C<--fasta>
 
 Force FASTA output
+
 =item C<--fastq>
 
 Force FASTQ output
+
 =item C<--rc>
 
 Print reverse complementary
+
 =item C<--q|qual> [n.n]
 
 Default quality for FASTQ files (default '32')
+
 =item C<--upper>
 
 Convert sequence to uppercase

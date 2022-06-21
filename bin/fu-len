@@ -7,8 +7,6 @@ use FASTX::Reader;
 use Getopt::Long;
 use File::Basename;
 use FindBin qw($RealBin);
-use lib  "$RealBin/../seqfu/", "$RealBin/seqfu/", "$RealBin/../lib/perl5",  "$RealBin/lib"; 
-
 my $PROGRAM = 'fu-len';
 my $VERSION = '0.2';
 my $DESCR   = 'Select sequences by size';
@@ -184,15 +182,19 @@ __END__
 =item C<-m>, C<--min> INT                   
 
 Minimum length to print a sequence
+
 =item C<-x>, C<--max> INT                   
 
 Maximum length to print a sequence
+
 =item C<-l>, C<--len>                       
 
 Add read length as comment
+
 =item C<-f>, C<--fasta>                     
 
 Force FASTA output (default: as INPUT)
+
 =item C<-w>, C<--fasta-width> INT           
 
 Paginate FASTA sequences (default: no)

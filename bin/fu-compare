@@ -6,7 +6,6 @@ use 5.012;
 use warnings;
 use Getopt::Long;
 use FindBin qw($RealBin);
-use lib  "$RealBin/../seqfu/", "$RealBin/seqfu/";
 use FASTX::Reader;
 use File::Basename;
 use Data::Dumper;

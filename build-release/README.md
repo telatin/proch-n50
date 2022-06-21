@@ -11,16 +11,3 @@ a small module to calculate N50 (total size, and total number of sequences) for 
 
 ## Documentation pages
 
-### Binaries 
- * [n50](docs/n50.md)
- * [fu-uniq](docs/fu-uniq.md)
- * [fu-sort](docs/fu-sort.md)
- * [fu-rename](docs/fu-rename.md)
- * [fu-len](docs/fu-len.md)
- * [fu-hash](docs/fu-hash.md)
- * [fu-grep](docs/fu-grep.md)
- * [fu-extract](docs/fu-extract.md)
- * [fu-count](docs/fu-count.md)
- * [fu-compare](docs/fu-compare.md)
- * [fu-cat](docs/fu-cat.md)
-### Modules 

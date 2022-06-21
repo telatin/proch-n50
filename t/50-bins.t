@@ -4,12 +4,13 @@ use Proch::N50;
 use FASTX::Reader;
 use Test::More;
 use FindBin qw($RealBin);
+use File::Spec::Functions;
 
 my $v = $FASTX::Reader::VERSION;
 my ($v1, $v2, $v3) = split /\./, $v;
 
-my $file = "$RealBin/../data/small_test.fa";
-my $bins  = "$RealBin/../bin/";
+my $file = catfile($RealBin, "..", "data", "small_test.fa"); # "$RealBin/../data/small_test.fa";
+my $bins  = catfile($RealBin, "..", "bin/");
 sub execute {
     my ($prog, @args) = @_;
     my $cmd = "perl $bins/$prog";

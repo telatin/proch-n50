@@ -417,7 +417,7 @@ elsif ( $opt_format eq 'custom' ) {
 
         $output_string =~ s/({new}|{n}|\\n)/$new/g
           if ( $output_string =~ /({new}|{n}|\\n)/ );
-        $output_string =~ s/({tab}|{n}|\\t)/$tab/g
+        $output_string =~ s/({tab}|{t}|\\t)/$tab/g
           if ( $output_string =~ /({tab}|{t}|\\t)/ );
         $output_string =~ s/{path}/$r/g if ( $output_string =~ /{path}/ );
         foreach my $f (@fields) {

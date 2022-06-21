@@ -1,4 +1,5 @@
 1.4.7	2022-06-22
+	* Preparing for 5.32 (unescaped braces will be fatal in regexes)
     * Documentation fixes
 	* Updated Windows tests
 

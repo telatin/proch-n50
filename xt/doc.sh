@@ -22,28 +22,32 @@ mkdir -p "$out"
 dzil build --in "$dir"
 
 # prevent shell glob
-
+echo "_binaries"
 echo "### Binaries " >> README.md
 for i in $(ls -r "$dir"/bin/*); 
 do
  if [[ ! -e "$i" ]]; then
    exit
  fi
- echo $b
+ 
  b=$(basename $i .pl)
+ echo $b
  pod2markdown < $i > "$out"/${b}.md
  echo " * [$b](docs/$b.md)" >> README.md
 done
 
 echo "### Modules " >> README.md
-for i in "$dir"/lib/Proch/*.pm; 
+echo "_Modules"
+for m in "$dir"/lib/Proch/*.pm; 
 do
- if [[ ! -e "$i" ]]; then
-   exit
+ if [[ ! -e "$m" ]]; then
+   echo "Not found $m"
+   continue
  fi
+ 
+ b=$(basename $m .pm)
  echo $b
- b=$(basename $i .pm)
- pod2markdown < $i > "$out"/${b}.md
+ pod2markdown < $m > "$out"/${b}.md
  echo " * [Proch::$b](docs/$b.md)" >> README.md
 done
 

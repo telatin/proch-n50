@@ -24,3 +24,15 @@ a small module to calculate N50 (total size, and total number of sequences) for 
  * [fu-compare](docs/fu-compare.md)
  * [fu-cat](docs/fu-cat.md)
 ### Modules 
+ * [Proch::N50](docs/N50.md)
+ * [Proch::Seqfu](docs/Seqfu.md)
+
+
+# Citing
+
+Telatin A, Fariselli P, Birolo G. 
+**SeqFu: A Suite of Utilities for the Robust and Reproducible Manipulation of Sequence Files**.
+Bioengineering 2021, 8, 59. [10.3390/bioengineering8050059](https://doi.org/10.3390/bioengineering8050059)
+
+
+Last updated: 2022-06-21

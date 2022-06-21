@@ -1,4 +1,6 @@
 package Proch::Seqfu;
+#ABSTRACT: Helper module to support Seqfu tools
+
 use 5.014;
 use warnings;
 use Carp qw(confess);
@@ -6,7 +8,7 @@ use Data::Dumper;
 use Term::ANSIColor qw(:constants);
 require Exporter;
 
-$Proch::SeqFu::VERSION = '1.5.0';
+$Proch::SeqFu::VERSION = '1.5.0tou';
 $Proch::SeqFu::fu_linesize = 0;
 $Proch::SeqFu::fu_verbose  = 0;
 

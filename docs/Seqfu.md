@@ -1,6 +1,6 @@
 # NAME
 
-Proch::Seqfu
+Proch::Seqfu - Helper module to support Seqfu tools
 
 # VERSION
 

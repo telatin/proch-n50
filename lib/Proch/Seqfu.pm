@@ -6,7 +6,7 @@ use Data::Dumper;
 use Term::ANSIColor qw(:constants);
 require Exporter;
 
-$Proch::SeqFu::VERSION = '1.4.6';
+$Proch::SeqFu::VERSION = '1.5.0';
 $Proch::SeqFu::fu_linesize = 0;
 $Proch::SeqFu::fu_verbose  = 0;
 

@@ -1,3 +1,7 @@
+1.4.9	2022-06-22
+	* Adding PerlIO::encoding as requisite (core since 5.8)
+	* Investigating tests failing for some users
+
 1.4.8	2022-06-22
 	* Updated binaries from Seqfu 0.x
 	

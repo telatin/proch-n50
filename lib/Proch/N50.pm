@@ -4,7 +4,7 @@ package Proch::N50;
 use 5.012;
 use warnings;
 my  $opt_digits = 2;
-$Proch::N50::VERSION = '1.4.8';
+$Proch::N50::VERSION = '1.4.9';
 use File::Spec;
 use JSON::PP;
 use FASTX::Reader;

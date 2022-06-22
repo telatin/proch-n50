@@ -1,3 +1,6 @@
+1.4.10	2022-06-22
+    * Testing external scripts with the right interpreter (thanks to ANDK)
+
 1.4.9	2022-06-22
 	* Adding PerlIO::encoding as requisite (core since 5.8)
 	* Investigating tests failing for some users

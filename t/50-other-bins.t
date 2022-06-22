@@ -10,7 +10,7 @@ my $bins  = catfile($RealBin, "..", "bin/");
 
 sub perl_fail {
     # Return non zero if perl does not work
-    my $cmd = "perl --version";
+    my $cmd = "$^X --version";
     my @lines = ();
     my $status;
     eval {
@@ -31,7 +31,7 @@ sub perl_fail {
 sub execute {
     my ($prog, @args) = @_;
     my $script = catfile($bins, $prog);
-    my $cmd = "perl \"$script\"";
+    my $cmd = "$^X \"$script\"";
     my $output;
     my $status;
     for my $arg (@args) {
@@ -63,13 +63,13 @@ SKIP: {
     my $hashBin = catfile($bins, "fu-hash");
     skip "Skipping binary tests: $hashBin not found" unless (-e "$hashBin");
     skip "Input file not found: $file" unless (-e "$file");
-    skip "Failed calling perl externally (maybe is perl.exe?)" if (perl_fail());
-    my $cmd = qq(perl "$hashBin" "$file");
+    skip "Failed calling $^X externally (maybe is perl.exe?)" if (perl_fail());
+    my $cmd = qq($^X "$hashBin" "$file");
     my $val = tcmd($cmd);
     skip "Unable to run tests: $cmd: $val" if ($val != 0);
     my $status;
     my $output;
-	testbin("fu-grep", "ACACACA", $file); #`$bins/fu-grep ACACACA $file`;
+	testbin("fu-grep", "ACACACA", $file); 
     
     testbin("fu-uniq", $file);
     

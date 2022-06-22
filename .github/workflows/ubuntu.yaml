@@ -1,4 +1,4 @@
-name: CI Dzil
+name: Ubuntu_18
  
 on:
     push:

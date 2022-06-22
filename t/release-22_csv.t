@@ -20,8 +20,8 @@ my $script = "$RealBin/../bin/n50";
 if (-e "$file" and -e "$script") {
 	# TSV FORMAT
 
-	my @data = `perl "$script" --format csv "$file" 2>/dev/null`;
-	ok($? == 0, "OK: perl \"$script\" --format csv \"$file\"");
+	my @data = `$^X "$script" --format csv "$file" 2>/dev/null`;
+	ok($? == 0, "OK: $^X \"$script\" --format csv \"$file\"");
 	my $dataLen = scalar @data;
 	ok($dataLen > 1, "Produced > 1 lines of output: $dataLen");
 	my @header = split /,/, $data[0];

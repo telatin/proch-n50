@@ -10,7 +10,7 @@ my $bins  = catfile($RealBin, "..", "bin/");
 
 sub perl_fail {
     # Return non zero if perl does not work
-    my $cmd = "perl --version";
+    my $cmd = "$^X --version";
     my @lines = ();
     my $status;
     eval {
@@ -36,7 +36,7 @@ SKIP: {
     
     # check if perl can run
     skip "Unable to run perl from here" if (perl_fail());
-    my $cmd = qq(perl "$n50bin" "$file");
+    my $cmd = qq($^X "$n50bin" "$file");
     my $output = `$cmd`;
     chomp($output);
     ok($? == 0, "Exit status OK for n50: $?");

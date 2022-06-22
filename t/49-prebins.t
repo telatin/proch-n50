@@ -14,7 +14,7 @@ ok(-e "$n50", "N50 utility found at <$n50>");
 my $grep = catfile($bins, "fu-grep");
 ok(-e "$grep", "fu-grep utility found at <$grep>");
 
-my @output = `perl --version`;
+my @output = `$^X --version`;
 
 my $perlversion;
 for my $line (@output) {

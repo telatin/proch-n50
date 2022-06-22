@@ -17,7 +17,7 @@ my $script = "$RealBin/../bin/n50";
 
 if (-e "$file" and -e "$script") {
 
-	my $output = `perl "$script" "$file"`;
+	my $output = `$^X "$script" "$file"`;
 	ok($? == 0, "'n50' script executed: exit=$?");
 
 

@@ -17,7 +17,7 @@ my $script = "$RealBin/../bin/n50";
 
 if (-e "$file" and -e "$script") {
 
-	my $output = `perl "$script" --format custom --template "{N50}{tab}{path}" "$file"`;
+	my $output = `$^X "$script" --format custom --template "{N50}{tab}{path}" "$file"`;
 	ok($? == 0, "'n50' script executed: exit=$?");
   chomp($output);
   my @fields = split /\t/, $output;

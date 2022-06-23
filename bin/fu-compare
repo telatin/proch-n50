@@ -10,6 +10,8 @@ use FASTX::Reader;
 use File::Basename;
 use Data::Dumper;
 sub loadseqs($);
+use Proch::Seqfu;
+my $VERSION = $Proch::Seqfu::VERSION // "<Dev>";
 my $BASENAME = basename($0);
 my $opt_verbose;
 

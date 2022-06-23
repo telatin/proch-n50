@@ -197,7 +197,6 @@ Search pattern in sequence comments (default: sequence)
 
 Do not search reverse complemented oligo
 
-
 =item  C<f>, C<--fasta>
 
 Force output in FASTA format
@@ -217,7 +216,6 @@ under certain circumstances.
 
 SeqFu is available at L<https://github.com/telatin/seqfu2>, and
 can be installed with BioConda C<conda install -c bioconda seqfu>
-
 
 =head1 CITING
 

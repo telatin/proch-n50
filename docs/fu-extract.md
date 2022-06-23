@@ -4,7 +4,7 @@ fu-extract - Filter DNA sequences by pattern and/or length
 
 # VERSION
 
-version 1.4.8
+version 1.5.0
 
 # EXAMPLES
 

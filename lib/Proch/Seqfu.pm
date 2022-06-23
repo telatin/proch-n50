@@ -80,7 +80,7 @@ sub rc {
     }
 }
 
-=head2 is_seq(name, comment, seq)
+=head2 is_seq(seq)
 
 Check if a string is a DNA sequence, including degenerate chars.
 

@@ -1,5 +1,10 @@
+1.5.0	2022-06-23
+	* Fix: fu-cat length selection, added test
+	* Fix: fu-count supports STDIN input
+	* Added tests for fu-count and fu-grep
+	
 1.4.10	2022-06-22
-    * Testing external scripts with the right interpreter (thanks to ANDK)
+	* Testing external scripts with the right interpreter (thanks to ANDK)
 
 1.4.9	2022-06-22
 	* Adding PerlIO::encoding as requisite (core since 5.8)
@@ -10,7 +15,7 @@
 	
 1.4.7	2022-06-21
 	* Preparing for 5.32 (unescaped braces will be fatal in regexes)
-    * Documentation fixes
+	* Documentation fixes
 	* Updated Windows tests
 
 1.4.6	2022-06-20

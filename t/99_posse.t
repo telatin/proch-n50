@@ -13,18 +13,19 @@ my( $success, $errarray, $buffer, $outarray, $errbuff ) = run(
                 command => ["ls"],
                 timeout => 1 );
 
-say "ls=$success|";
- 
+ok(defined $success, "Defined success");
+ok($success!=0, "Defined success $success");
 ( $success, $errarray, $buffer, $outarray, $errbuff ) = run( 
-                command => ["xls"],
+                command => ["not_found"],
                 timeout => 1 );
-
-say "xls=$success|";
-
+ok(($errarray and $errarray =~ /No such file or directory/i), "Not found");
+ok((not defined $success), "Not defined success when failed ");
 ( $success, $errarray, $buffer, $outarray, $errbuff ) = run( 
                 command => ["sleep", 5],
-                verbose => 1,
                 timeout => 1 );
 
-say "sleep=$success|";
+ 
+
+ok(($errarray and $errarray =~ /timeout/i), "Timeout works");
+ok((not defined $success), "Not defined success when timedout ");
 done_testing();

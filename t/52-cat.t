@@ -11,11 +11,11 @@ my $bins  = catfile($RealBin, "..", "bin/");
 
 sub perl_fail {
     # Return non zero if perl does not work
-    my $cmd = "$^X --version";
+    my @cmd = qq($^X, "--version");
     my @lines = ();
     my $status;
     eval {
-      @lines = `$cmd`;
+      @lines = `@cmd`;
       $status = $?;
     };
     
@@ -30,8 +30,8 @@ sub perl_fail {
 }
 
 sub countseqs {
-    my ($cmd) = @_;
-    my @output = `$cmd`;
+    my @cmd = @_;
+    my @output = `@cmd`;
     if (substr($output[0], 0, 1) eq ">") {
         return int(scalar(@output) / 2);
     } elsif (substr($output[0], 0, 1) eq "@")  {
@@ -46,16 +46,16 @@ SKIP: {
     skip "Skipping binary tests: $script not found" unless (-e "$script");
     skip "Input file not found: $file" unless (-e "$file");
     
-    my $cmd = qq($^X "$script" "$file" );
-    my $seqs = countseqs($cmd);
+    my @cmd = ($^X, "$script", "$file");
+    my $seqs = countseqs(@cmd);
     ok($seqs == 6, "[fu-cat] got $seqs sequences, expected 6");
 
-    $cmd = qq($^X "$script" -l 50 "$file" );
-    $seqs = countseqs($cmd);
+    @cmd = ($^X, "$script", "-l", 50, "$file");
+    $seqs = countseqs(@cmd);
     ok($seqs == 1, "[fu-cat] got $seqs sequences > 50, expected 1");
 
-    $cmd = qq($^X "$script" -l 50 "$file" );
-    $seqs = countseqs($cmd);
+    @cmd = ($^X, "$script", "-l", "50", "$file" );
+    $seqs = countseqs(@cmd);
     ok($seqs == 1, "[fu-cat] got $seqs sequences > 50, expected 1");
 
 

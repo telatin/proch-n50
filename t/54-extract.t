@@ -55,7 +55,7 @@ SKIP: {
  
     # 5/6 sequences starts with "Seq"
     my $cmd2 = qq($^X $script -p Seq "$script" "$file" );
-    my $seqs = cmdSeqs($cmd2);
+    $seqs = cmdSeqs($cmd2);
     ok($seqs == 5, "[$program] got $seqs sequences, expected 5");
     
     # Case insensitive: all sequences match (6)

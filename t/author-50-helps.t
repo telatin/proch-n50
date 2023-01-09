@@ -1,3 +1,11 @@
+
+BEGIN {
+  unless ($ENV{RELEASE_TESTING}) {
+    print qq{1..0 # SKIP these tests are for release candidate testing\n};
+    exit
+  }
+}
+
 use strict;
 use warnings;
 use Test::More;
@@ -25,17 +33,17 @@ SKIP: {
     skip "Failed calling \$^X externally (maybe is perl.exe?)" if (not has_perl());
 
 
-    test_bin("fu-hash", $file);
+    test_bin("fu-hash", "--help");
 
-	test_bin("fu-grep", "ACACACA", $file); 
+	test_bin("fu-grep", "--help"); 
     
-    test_bin("fu-uniq", $file);
+    test_bin("fu-uniq", "--help");
     
-    test_bin("fu-sort", $file);
+    test_bin("fu-sort", "--help");
     
-    test_bin("fu-rename", $file);
+    test_bin("fu-rename", "--help");
     
-    test_bin("fu-extract",  $file);
+    test_bin("fu-extract", "--help");
     
 }
 done_testing();

@@ -15,6 +15,7 @@ my $VERSION = $Proch::Seqfu::VERSION // "<Dev>";
 my $warnings = 0;
 my ($opt_verbose, $opt_debug);
 my $opt_separator   = ".";
+my $opt_version     = 0;
 my $opt_prefix      = "{b}";
 my $opt_reset       = 0;
 my $opt_fasta;
@@ -27,11 +28,13 @@ my $_opt          = GetOptions(
 	's|separator=s' => \$opt_separator,
 	'f|fasta'       => \$opt_fasta,
 	'v|verbose'     => \$opt_verbose,
+	'version'       => \$opt_version,
 	'n|nocomments'  => \$opt_nocomm,
 	'd|debug'		    => \$opt_debug,
 	'h|help'        => \$opt_help,
 );
 
+$opt_version && version(); 
 $opt_help && usage();
 
 my $total_seqs = 0;
@@ -113,6 +116,10 @@ END
 	exit 0;
 }
 
+sub version {
+	say STDERR "$BASENAME $VERSION";
+	exit 0;
+}
 sub vprint {
 	say $_[0] if ($opt_verbose or $opt_debug) ;
 }

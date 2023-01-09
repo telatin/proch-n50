@@ -72,6 +72,7 @@ sub run_bin {
         say STDERR $out;
         if ($errarray =~/IPC::Cmd::TimeOut/) {
             say STDERR "[TIMEOUT] $prog @args";
+            return (0, "[TIMEOUT] $out", "[TIMEOUT] $err");
         }
         return (1, $out, $err);
     } 

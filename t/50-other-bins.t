@@ -62,16 +62,13 @@ sub tcmd {
 SKIP: {
     my $hashBin = catfile($bins, "fu-hash");
     skip "Skipping binary tests: $hashBin not found" unless (-e "$hashBin");
-    print STDERR "Hash bin: $hashBin\n";
     skip "Input file not found: $file" unless (-e "$file");
-    skip "Failed calling $^X externally (maybe is perl.exe?)" if (perl_fail());
+    skip "Failed calling $^X externally (maybe is perl.exe?)" if (perl_fail() != 0);
     print STDERR "Perl bin: ", $^X, "\n";
-    my $cmd = qq($^X "$hashBin" "$file");
-    print STDERR "Cmd: ", $cmd, "\n";
-    my $val = tcmd($cmd);
-    skip "Unable to run tests: $cmd: $val" if ($val != 0);
-    my $status;
-    my $output;
+
+
+    testbin("fu-hash", $file);
+
 	testbin("fu-grep", "ACACACA", $file); 
     
     testbin("fu-uniq", $file);

@@ -11,17 +11,19 @@ my $bins  = catfile($RealBin, "..", "bin/");
 
 sub perl_fail {
     # Return non zero if perl does not work
-    my @cmd = qq($^X, "--version");
+    my @cmd = qq($^X "--version");
     my @lines = ();
     my $status;
     eval {
       @lines = `@cmd`;
       $status = $?;
+      
     };
     
     if ($@) {
         return -2;
     } elsif ($status != 0) {
+    
         return $status
     } else {
         # OK
@@ -42,7 +44,7 @@ sub countseqs {
 }
 SKIP: {
     my $script = catfile($bins, "fu-cat");
-    skip "Unable to run perl from here" if (perl_fail());
+    skip "Unable to run perl from here" if (perl_fail() != 0);
     skip "Skipping binary tests: $script not found" unless (-e "$script");
     skip "Input file not found: $file" unless (-e "$file");
     

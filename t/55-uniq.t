@@ -25,7 +25,7 @@ SKIP: {
     skip "Unable to run perl from here" if (not has_perl());
     skip "Skipping binary tests: $script not found" unless (-e "$script");
     skip "Input file not found: $file" unless (-e "$file");
-    my ($out, $err) =test_bin("fu-uniq", ("$file"));
+    my ($out, $err) = test_bin("fu-uniq", ("$file"));
     ok(length($out) > 0, "[$program] got output");
     my $seqs = countseqs("fu-uniq", ($file));
     ok($seqs == 4, "[$program] got $seqs sequence lines, expected 4");

@@ -38,7 +38,7 @@ sub has_perl {
         say STDERR "Exit status: $status\n";
         return 0;
     } else {
-        # OK
+        # OKs
         return 1
     }
 }
@@ -59,10 +59,21 @@ sub run_bin {
     my $out = $outarray ? join("\n", @$buffer) : '';  
     my $err = $errarray ? join("\n", @$errbuff) : '';
     $err = join("\n", @$buffer) if ($buffer and not $err);
-    if (not defined $success or $success != 0) {
-        return (0, $out, $err)
+    
+    if (defined $success and $success != 0) {
+            return (0, $out, $err)
     } else {
-        return (1, $out, $err)
+
+        # Print some debug
+        say STDERR $prog . " " . join(" ", @args);
+        say STDERR "-------------------------";
+        say STDERR $errarray ? $errarray : "No error";
+        say STDERR "-------------------------";
+        say STDERR $out;
+        if ($errarray =~/IPC::Cmd::TimeOut/) {
+            say STDERR "[TIMEOUT] $prog @args";
+        }
+        return (1, $out, $err);
     } 
 }
 

@@ -59,7 +59,7 @@ sub run_bin {
     my $out = $outarray ? join("\n", @$buffer) : '';  
     my $err = $errarray ? join("\n", @$errbuff) : '';
     $err = join("\n", @$buffer) if ($buffer and not $err);
-    if ($success != 0) {
+    if (not defined $success or $success != 0) {
         return (0, $out, $err)
     } else {
         return (1, $out, $err)

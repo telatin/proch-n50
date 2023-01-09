@@ -5,10 +5,14 @@ use 5.012;
 use warnings;
 use Getopt::Long;
 use FindBin qw($RealBin);
-
 use FASTX::Reader;
 use File::Basename;
 use Data::Dumper;
+# The following placeholder is to be programmatically replaced with 'use lib "$RealBin/../lib"' if needed
+#~loclib~
+if ( -e "$RealBin/../lib/Proch/N50.pm" and -e "$RealBin/../Changes" ) {
+    use lib "$RealBin/../lib";
+}
 my $BASENAME = basename($0);
 use Proch::Seqfu;
 my $VERSION = $Proch::Seqfu::VERSION // "<Dev>";

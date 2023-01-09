@@ -71,6 +71,7 @@ sub run_bin {
         say STDERR "-------------------------";
         say STDERR $out;
         if ($errarray =~/IPC::Cmd::TimeOut/) {
+            # Accept execution as valid, output will be not
             say STDERR "[TIMEOUT] $prog @args";
             return (0, "[TIMEOUT] $out", "[TIMEOUT] $err");
         }

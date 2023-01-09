@@ -3,81 +3,39 @@ use warnings;
 use Test::More;
 use FindBin qw($RealBin);
 use File::Spec::Functions;
-
+use lib $RealBin;
+use TestFu;
 
 my $file = catfile($RealBin, "..", "data", "small_test.fa"); # "$RealBin/../data/small_test.fa";
 my $bins  = catfile($RealBin, "..", "bin/");
 
-sub perl_fail {
-    # Return non zero if perl does not work
-    my $cmd = "$^X --version";
-    my @lines = ();
-    my $status;
-    eval {
-      @lines = `$cmd`;
-      $status = $?;
-    };
-    
-    if ($@) {
-        return -2;
-    } elsif ($status != 0) {
-        return $status
-    } else {
-        # OK
-        return 0
-    }
+sub test_bin {
+    my ($prog, @args) = @_;
+    my ($status, $out, $err) = run_bin($prog, @args);
+    ok($status == 0, "[$prog] ran successfully with @args");
 }
 
-sub execute {
-    my ($prog, @args) = @_;
-    my $script = catfile($bins, $prog);
-    my $cmd = "$^X \"$script\"";
-    my $output;
-    my $status;
-    for my $arg (@args) {
-        $cmd .= " \"$arg\" ";
-    }
-    
-    $output = `$cmd`;
-    $status = $?;
-    return ($status, $output, $cmd);
-    
-}
 
-sub testbin {
-    my ($prog, @args) = @_;
-    my ($status, $output, $cmd) = execute($prog, @args); 
-    ok($status == 0, "[$prog] Program executed as: \n`$cmd`\n  with status 0: got $status");
-}
-sub tcmd {
-    my $cmd = shift @_;
-    eval {
-        `$cmd`;
-    };
-    if ($@) {
-        return -1;
-    }
-    return $?;
-}
 SKIP: {
     my $hashBin = catfile($bins, "fu-hash");
+
+    skip "Directory not found" unless (-d "$bins");
     skip "Skipping binary tests: $hashBin not found" unless (-e "$hashBin");
     skip "Input file not found: $file" unless (-e "$file");
-    skip "Failed calling $^X externally (maybe is perl.exe?)" if (perl_fail() != 0);
-    print STDERR "Perl bin: ", $^X, "\n";
+    skip "Failed calling \$^X externally (maybe is perl.exe?)" if (not has_perl());
 
 
-    testbin("fu-hash", $file);
+    test_bin("fu-hash", $file);
 
-	testbin("fu-grep", "ACACACA", $file); 
+	test_bin("fu-grep", "ACACACA", $file); 
     
-    testbin("fu-uniq", $file);
+    test_bin("fu-uniq", $file);
     
-    testbin("fu-sort", $file);
+    test_bin("fu-sort", $file);
     
-    testbin("fu-rename", $file);
+    test_bin("fu-rename", $file);
     
-    testbin("fu-extract",  $file);
+    test_bin("fu-extract",  $file);
     
 }
 done_testing();

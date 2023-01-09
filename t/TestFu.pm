@@ -6,7 +6,8 @@ use File::Spec::Functions;
 use Carp qw(confess);
 use Data::Dumper;
 use Term::ANSIColor qw(:constants);
-use IPC::Run qw( run timeout );
+#use IPC::Run qw( run timeout );
+use IPC::Cmd qw(can_run run run_forked);
 use Test::More;
 require Exporter;
 
@@ -16,7 +17,7 @@ $TestFu::VERSION = '0.0.1';
 our @ISA = qw(Exporter);
 our @EXPORT = qw(has_perl run_bin tot countseqs);
 our @EXPORT_OK = qw(munge);  # symbols to export on request
-
+my $TIMEOUT = 30;
 my $bins  = catfile($RealBin, "..", "bin/");
 
 
@@ -50,21 +51,19 @@ sub run_bin {
     }
     unshift(@args, $script);
     unshift(@args, $^X);
-    my $in = '';
-    my $out = '1';
-    my $err = '1';
-    my $ok = 0;
- 
-    if (run \@args, \$in, \$out, \$err, timeout( 60 )) {
-        chomp($out);
-        chomp($err);
-        return (0, $out, $err);
+    
+    my( $success, $errarray, $buffer, $outarray, $errbuff ) = run( 
+                command => \@args,
+                timeout => $TIMEOUT );
+
+    my $out = $outarray ? join("\n", @$buffer) : '';  
+    my $err = $errarray ? join("\n", @$errbuff) : '';
+    $err = join("\n", @$buffer) if ($buffer and not $err);
+    if ($success != 0) {
+        return (0, $out, $err)
     } else {
-        say " ER Cmd    : ", join(" ",@args);
-        say " ER Output : $out";
-        say " ER Error  : $err";
-        return (1, $out, $err);
-    }
+        return (1, $out, $err)
+    } 
 }
 
 sub countseqs {
@@ -72,7 +71,7 @@ sub countseqs {
     my ($status, $out, $err) = run_bin($prog, @args);
     # Split newline OS agnostic
     if ($status != 0) {
-        say STDERR "[countseqs err] $out $err";
+        say STDERR "[countseqs err $status]\n $out $err";
         return -1;
     }
 

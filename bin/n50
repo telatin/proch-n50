@@ -20,8 +20,8 @@ use Data::Dumper;
 our %program = (
     'NAME'    => 'FASTX N50',
     'AUTHOR'  => 'Andrea Telatin',
-    'MAIL'    => 'andrea@telatin.com',
-    'VERSION' => '4.1.0',
+    'MAIL'    => 'andrea.telatin@gmail.com',
+    'VERSION' => '4.2.0',
 );
 my $hasJSON = undef;
 my $t;

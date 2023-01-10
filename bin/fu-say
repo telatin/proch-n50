@@ -1,0 +1,20 @@
+#!/usr/bin/env perl
+# ABSTRACT: Testing module
+# PODNAME: fu-say
+
+use 5.012;
+use warnings FATAL => 'all';
+use Getopt::Long;
+use FASTX::Reader;
+use File::Basename;
+use FindBin qw($RealBin);
+
+if (defined $ARGV[0] and $ARGV[0] =~/^-?-?version/) {
+    say "fu-say \$VERSION";
+    say STDERR "Using FASTX::Reader=", $FASTX::Reader::VERSION;
+    exit(0)
+}
+say STDERR $FASTX::Reader::VERSION;
+say STDOUT "OK";
+exit(1);
+

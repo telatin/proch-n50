@@ -6,7 +6,7 @@ use File::Spec::Functions;
 use Carp qw(confess);
 use Data::Dumper;
 use Term::ANSIColor qw(:constants);
-#use IPC::Run qw( run timeout );
+$Data::Dumper::Terse = 1;
 use IPC::Cmd qw(can_run run run_forked);
 use Test::More;
 require Exporter;
@@ -52,25 +52,26 @@ sub run_bin {
     unshift(@args, $script);
     unshift(@args, $^X);
     
-    my( $success, $errarray, $buffer, $outarray, $errbuff ) = run( 
+    my( $success, $err_st, $buffer, $outarray, $errbuff ) = run( 
                 command => \@args,
                 timeout => $TIMEOUT );
 
-    my $out = $outarray ? join("\n", @$buffer) : '';  
-    my $err = $errarray ? join("\n", @$errbuff) : '';
-    $err = join("\n", @$buffer) if ($buffer and not $err);
-    
+    my $out = $outarray ? join("\n", @$outarray) : '';  
+    my $err = $errbuff ? join("\n", @$errbuff) : '';
+    #$err = join("\n", @$buffer) if ($buffer and not $err);
+    chomp($out);
+    chomp($err);    
     if (defined $success and $success != 0) {
-            return (0, $out, $err)
+        return (0, $out, $err)
     } else {
 
         # Print some debug
         say STDERR $prog . " " . join(" ", @args);
         say STDERR "-------------------------";
-        say STDERR $errarray ? $errarray : "No error";
+        say STDERR $err_st ? $err_st : "No error";
         say STDERR "-------------------------";
         say STDERR $out;
-        if ($errarray =~/IPC::Cmd::TimeOut/) {
+        if ($err_st =~/IPC::Cmd::TimeOut/) {
             # Accept execution as valid, output will be not
             say STDERR "[TIMEOUT] $prog @args";
             return (0, "[TIMEOUT] $out", "[TIMEOUT] $err");

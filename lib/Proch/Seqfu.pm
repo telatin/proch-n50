@@ -8,13 +8,13 @@ use Data::Dumper;
 use Term::ANSIColor qw(:constants);
 require Exporter;
 
-$Proch::Seqfu::VERSION = '1.5.5';
+$Proch::Seqfu::VERSION = '1.5.6';
 $Proch::Seqfu::fu_linesize = 0;
 $Proch::Seqfu::fu_verbose  = 0;
 
 our @ISA = qw(Exporter);
 our @EXPORT = qw(rc fu_printfasta fu_printfastq verbose has_seqfu seqfu_version);
-our @EXPORT_OK = qw(munge frobnicate $fu_linesize $fu_verbose);  # symbols to export on request
+our @EXPORT_OK = qw($fu_linesize $fu_verbose);  # symbols to export on request
 
 =head1 Proch::Seqfu
 
@@ -121,12 +121,17 @@ Note this will require SeqFu > 1.13
 =cut
 
 sub seqfu_version {
-	my $cmd = `seqfu version`;
+    my $cmd = '';
+    eval {
+        $cmd = `seqfu version`;
+    };
     chomp($cmd);
-    if ($cmd =~/^(\d).(\d).(\d)$/) {
+    if (length($@) > 0) {
+        return -2;
+    } elsif ($cmd =~/^(\d+)\.(\d+)\.?(\d+)?$/) {
         return $cmd;
     } else {
-        return -1;
+        return "-" . $cmd;
     }
 }
 
@@ -138,7 +143,7 @@ If SeqFu is detected returns 1, 0 otherwise, I<undef> when detection of SeqFu ve
 
 sub has_seqfu {
     my $ver = seqfu_version();
-    if ($ver == -1) {
+    if (substr($ver, 0, 1) eq '-') {
         return 0
     } elsif (length($ver) > 0) {
         return 1

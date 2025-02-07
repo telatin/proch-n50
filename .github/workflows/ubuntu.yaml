@@ -1,31 +1,52 @@
-name: Ubuntu_18
- 
+name: Perl Tests
+
 on:
-    push:
-        branches: '*'
-    pull_request:
-        branches: '*'
-    schedule:
-        - cron: '42 0 7 * *'
+  push:
+    branches: '*'
+  pull_request:
+    branches: '*'
  
 jobs:
   perl-job:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04]
+        os: [ubuntu-latest]
         perl-version:
-          - '5.24'
-          - '5.30'
+          - '5.36'
+          - '5.38'
           - 'latest'
+    
     runs-on: ${{ matrix.os }}
-    container:
-      image: perldocker/perl-tester:${{ matrix.perl-version }}     # https://hub.docker.com/r/perldocker/perl-tester
     name: Perl ${{ matrix.perl-version }}
+    
     steps:
-      - uses: actions/checkout@v3
-      - name: Regular tests
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Perl
+        uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: ${{ matrix.perl-version }}
+          distribution: strawberry  # Provides better Windows compatibility if needed
+
+      - name: Install Dependencies
         run: |
+          cpanm --notest Dist::Zilla
+          cpanm --notest App::cpanminus
           dzil authordeps --missing | cpanm --notest
           dzil listdeps --author --missing | cpanm --notest
+
+      - name: Run Tests
+        run: |
           dzil test --verbose
+
+      - name: Upload test artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-perl-${{ matrix.perl-version }}
+          path: |
+            ./*.log
+            ./test-*.tar.gz
+          retention-days: 7

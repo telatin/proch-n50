@@ -1,179 +1,231 @@
 package Proch::Seqfu;
-#ABSTRACT: Helper module to support Seqfu tools
+#ABSTRACT: SeqFu utilities
 
-use 5.014;
+use strict;
 use warnings;
+use 5.014;
 use Carp qw(confess);
 use Data::Dumper;
 use Term::ANSIColor qw(:constants);
-require Exporter;
+use base 'Exporter';
 
-$Proch::Seqfu::VERSION     = '1.6.1';
-$Proch::Seqfu::fu_linesize = 0;
-$Proch::Seqfu::fu_verbose  = 0;
+=head1 SYNOPSIS
 
-our @ISA       = qw(Exporter);
-our @EXPORT    = qw(rc fu_printfasta fu_printfastq verbose has_seqfu seqfu_version);
-our @EXPORT_OK = qw($fu_linesize $fu_verbose);  # symbols to export on request
+    use Proch::Seqfu;
+    
+    # Check if sequence is valid
+    my $is_valid = is_seq('ACGTACGT');    # returns 1
+    
+    # Get reverse complement
+    my $rc = rc('ACGTACGT');              # returns 'ACGTACGT'
+    
+    # Print sequences in FASTA format
+    fu_printfasta('seq1', 'sample sequence', 'ACGTACGT');
+    
+    # Print sequences in FASTQ format
+    fu_printfastq('seq1', 'sample sequence', 'ACGTACGT', 'FFFFFFFF');
 
-=head1 Proch::Seqfu
+=head1 DESCRIPTION
 
-a legacy module for Seqfu utilities
+This module provides utilities for manipulating and formatting DNA/RNA sequences, with support for FASTA and FASTQ formats. It also includes functionality to interact with the SeqFu command-line tool.
 
-=head2 fu_printfasta(name, comment, seq)
+=head1 FUNCTIONS
 
-This function prints a sequence in fasta format
+=head2 seqfu_version
 
-=cut
+    my $version = seqfu_version();
 
-sub fu_printfasta {
-    my ($name, $comment, $seq) = @_;
-    my $print_comment = '';
-    if (defined $comment) {
-        $print_comment = ' ' . $comment;
-    }
+Returns the version of the installed SeqFu command-line tool. Returns a version string if SeqFu is installed and properly configured, -2 if there was an error executing the command, or a negative string for other errors.
 
-    say '>', $name, $print_comment;
-    print split_string($seq);
-}
+=head2 has_seqfu
 
-=head2 fu_printfastq(name, comment, seq, qual)
+    my $has_seqfu = has_seqfu();
 
-This function prints a sequence in FASTQ format
+Checks if SeqFu is available in the system. Returns:
+    1     if SeqFu is available
+    0     if SeqFu is not available
+    undef if the check failed
 
-=cut
-sub fu_printfastq {
-    my ($name, $comment, $seq, $qual) = @_;
-    my $print_comment = '';
-    if (defined $comment) {
-        $print_comment = ' ' . $comment;
-    }
+=head2 is_seq
 
-    say '@', $name, $print_comment;
-    print split_string($seq) , "+\n", split_string($qual);
-}
+    my $valid = is_seq($sequence);
 
-=head2 verbose(msg)
+Validates if a string contains only valid nucleotide characters (ACGTRYSWKMBDHVNU, case insensitive).
+Returns true if the sequence is valid, false otherwise.
 
-Print a text if $fu_verbose is set to 1
+=head2 rc
 
-=cut
+    my $reverse_complement = rc($sequence);
 
-# Print verbose info
-sub verbose {
-    if ($Proch::Seqfu::fu_verbose) {
-        say STDERR " - ", $_[0];
-    }
-}
+Generates the reverse complement of a DNA/RNA sequence. Handles both DNA and RNA (U/T) automatically.
+Returns undefined if the input sequence contains invalid characters.
 
-=head2 rc(dna)
+=head2 verbose
 
-Return the reverse complement of a string [degenerate base not supported]
+    verbose("Processing sequence...");
 
-=cut
+Prints a message to STDERR if verbose mode is enabled ($fu_verbose is true).
+Messages are prefixed with " - ".
 
-sub rc {
-    my   $sequence = reverse($_[0]);
-    if (is_seq($sequence)) {
-        if ($sequence =~ /U/i) {
-            $sequence =~ tr/ACGURYSWKMBDHVacguryswkmbdhv/UGCAYRSWMKVHDBugcayrswmkvhdb/;
-        } else {                      
-            $sequence =~ tr/ACGTRYSWKMBDHVacgtryswkmbdhv/TGCAYRSWMKVHDBtgcayrswmkvhdb/;
-        }
-        return $sequence;
-    }
-}
+=head2 fu_printfasta
 
-=head2 is_seq(seq)
+    fu_printfasta($name, $comment, $sequence);
 
-Check if a string is a DNA sequence, including degenerate chars.
+Prints a sequence in FASTA format. The comment parameter is optional.
+Dies with an error message if:
+    - name is undefined
+    - sequence is undefined
+    - sequence contains invalid characters
 
-=cut
+=head2 fu_printfastq
 
-sub is_seq {
-    my $string = $_[0];
-    if ($string =~/[^ACGTRYSWKMBDHVNU]/i) {
-        return 0;
-    } else {
-        return 1;
-    }
-}
+    fu_printfastq($name, $comment, $sequence, $quality);
 
-=head2 split_string(dna)
+Prints a sequence in FASTQ format. The comment parameter is optional.
+Dies with an error message if:
+    - name is undefined
+    - sequence is undefined
+    - quality string is undefined
+    - sequence contains invalid characters
+    - sequence and quality lengths don't match
 
-Add newlines using $Proch::Seqfu::fu_linesize as line width
+=head1 CONFIGURATION VARIABLES
 
-=cut
+=over 4
 
-sub split_string {
-	my $input_string = $_[0];
-	my $formatted = '';
-	my $line_width = $Proch::Seqfu::fu_linesize; # change here
-    return $input_string. "\n" unless ($line_width);
-	for (my $i = 0; $i < length($input_string); $i += $line_width) {
-		my $frag = substr($input_string, $i, $line_width);
-		$formatted .= $frag."\n";
-	}
-	return $formatted;
-}
+=item $fu_linesize
 
-=head2 seqfu_version()
+Controls the line width for sequence output. If set to 0 (default), sequences are printed without line breaks.
 
-Check if a `seqfu` binary is present and returns its version if found.
-Note this will require SeqFu > 1.13
+=item $fu_verbose
+
+Controls verbose output. Set to 1 to enable verbose messages, 0 to disable.
+
+=back
 
 =cut
 
+# Version and configuration
+our $VERSION     = '1.7.0';
+our $fu_linesize = 0;
+our $fu_verbose  = 0;
+
+# Explicitly declare exports
+our @EXPORT = qw(
+    rc 
+    fu_printfasta 
+    fu_printfastq 
+    verbose 
+    has_seqfu 
+    seqfu_version
+    is_seq
+);
+
+our @EXPORT_OK = qw($fu_linesize $fu_verbose);
+
+# Function to check SeqFu version
 sub seqfu_version {
     my $cmd = '';
     eval {
         $cmd = `seqfu version`;
     };
     chomp($cmd);
+    
     if (length($@) > 0) {
         return -2;
-    } elsif ($cmd =~/^(\d+)\.(\d+)\.?(\d+)?$/) {
+    } elsif ($cmd =~ /^(\d+)\.(\d+)\.?(\d+)?$/) {
         return $cmd;
     } else {
-        return "-" . $cmd;
+        return "-$cmd";
     }
 }
 
-=head2 has_seqfu()
-
-If SeqFu is detected returns 1, 0 otherwise, I<undef> when detection of SeqFu version fails.
-
-=cut
-
+# Function to check if SeqFu is available
 sub has_seqfu {
     my $ver = seqfu_version();
     if (substr($ver, 0, 1) eq '-') {
-        return 0
+        return 0;
     } elsif (length($ver) > 0) {
-        return 1
+        return 1;
     } else {
         return undef;
     }
 }
+
+# Validate sequence string
+sub is_seq {
+    my $string = $_[0];
+    return 0 unless defined $string;
+    return $string !~ /[^ACGTRYSWKMBDHVNU]/i;
+}
+
+# Get reverse complement
+sub rc {
+    my $sequence = reverse($_[0]);
+    return unless is_seq($sequence);
+    
+    if ($sequence =~ /U/i) {
+        $sequence =~ tr/ACGURYSWKMBDHVacguryswkmbdhv/UGCAYRSWMKVHDBugcayrswmkvhdb/;
+    } else {
+        $sequence =~ tr/ACGTRYSWKMBDHVacgtryswkmbdhv/TGCAYRSWMKVHDBtgcayrswmkvhdb/;
+    }
+    return $sequence;
+}
+
+# Print verbose messages
+sub verbose {
+    say STDERR " - ", $_[0] if $fu_verbose;
+}
+
+# Print FASTA format
+sub fu_printfasta {
+    my ($name, $comment, $seq) = @_;
+    confess "Error: Name parameter required" unless defined $name;
+    confess "Error: Sequence parameter required" unless defined $seq;
+    confess "Error: Invalid sequence characters detected" unless is_seq($seq);
+    
+    my $print_comment = defined $comment ? ' ' . $comment : '';
+    say '>', $name, $print_comment;
+    print split_string($seq);
+}
+
+# Print FASTQ format
+sub fu_printfastq {
+    my ($name, $comment, $seq, $qual) = @_;
+    confess "Error: Name parameter required" unless defined $name;
+    confess "Error: Sequence parameter required" unless defined $seq;
+    confess "Error: Quality string required" unless defined $qual;
+    confess "Error: Invalid sequence characters detected" unless is_seq($seq);
+    confess "Error: Sequence and quality length mismatch" 
+        unless length($seq) == length($qual);
+    
+    my $print_comment = defined $comment ? ' ' . $comment : '';
+    say '@', $name, $print_comment;
+    print split_string($seq), "+\n", split_string($qual);
+}
+
+# Split string into lines
+=head2 split_string
+
+    my $formatted = split_string($input_string);
+
+Splits a string into lines of length $fu_linesize. Returns the formatted string with line breaks.
+
+=cut
+sub split_string {
+    my $input_string = $_[0];
+    return unless defined $input_string;
+    
+    my $formatted = '';
+    my $line_width = $fu_linesize;
+    
+    return $input_string . "\n" unless $line_width;
+    
+    for (my $i = 0; $i < length($input_string); $i += $line_width) {
+        my $frag = substr($input_string, $i, $line_width);
+        $formatted .= $frag . "\n";
+    }
+    return $formatted;
+}
+
 1;
-
-__END__
-
-Nucleotide Code:  Base:
-----------------  -----
-A.................Adenine
-C.................Cytosine
-G.................Guanine
-T (or U)..........Thymine (or Uracil)
-R.................A or G
-Y.................C or T
-S.................G or C
-W.................A or T
-K.................G or T
-M.................A or C
-B.................C or G or T
-D.................A or G or T
-H.................A or C or T
-V.................A or C or G
-N.................any base
-. or -............gap

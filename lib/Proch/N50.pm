@@ -53,7 +53,7 @@ Parameters:
 Example:
     my $stats = getStats('assembly.fasta', 'JSON', 80);
     print $stats->{json};
-    
+
 =cut
 
 sub getStats {

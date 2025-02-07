@@ -9,6 +9,11 @@ use Data::Dumper;
 use Term::ANSIColor qw(:constants);
 use base 'Exporter';
 
+# Version and configuration
+our $VERSION     = '1.7.0';
+our $fu_linesize = 0;
+our $fu_verbose  = 0;
+
 =head1 SYNOPSIS
 
     use Proch::Seqfu;
@@ -105,10 +110,7 @@ Controls verbose output. Set to 1 to enable verbose messages, 0 to disable.
 
 =cut
 
-# Version and configuration
-our $VERSION     = '1.7.0';
-our $fu_linesize = 0;
-our $fu_verbose  = 0;
+
 
 # Explicitly declare exports
 our @EXPORT = qw(
@@ -126,30 +128,26 @@ our @EXPORT_OK = qw($fu_linesize $fu_verbose);
 # Function to check SeqFu version
 sub seqfu_version {
     my $cmd = '';
-    eval {
-        $cmd = `seqfu version`;
-    };
-    chomp($cmd);
     
-    if (length($@) > 0) {
-        return -2;
-    } elsif ($cmd =~ /^(\d+)\.(\d+)\.?(\d+)?$/) {
-        return $cmd;
-    } else {
-        return "-$cmd";
-    }
+    eval {
+        my $path = $ENV{PATH};
+        $path =~ /^(.+)$/;  # Untaint PATH by capturing
+        local $ENV{PATH} = $1;
+        $cmd = qx(seqfu version 2>/dev/null);
+        chomp($cmd);
+    };
+    
+    return -2 if $@;
+    return $cmd if $cmd =~ /^(\d+)\.(\d+)(?:\.(\d+))?$/;
+    return "-$cmd";
 }
 
 # Function to check if SeqFu is available
 sub has_seqfu {
     my $ver = seqfu_version();
-    if (substr($ver, 0, 1) eq '-') {
-        return 0;
-    } elsif (length($ver) > 0) {
-        return 1;
-    } else {
-        return undef;
-    }
+    return 0 if $ver =~ /^-/;        # Not installed/error
+    return 1 if length($ver) > 0;     # Valid version found
+    return undef;                     # Unknown state
 }
 
 # Validate sequence string
